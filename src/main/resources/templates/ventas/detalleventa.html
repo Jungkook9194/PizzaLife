@@ -1,0 +1,312 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Detalle Venta - Pizza Life</title>
+        <link rel="icon" th:href="@{'/images/icon.png'}" type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://kit.fontawesome.com/c54effc087.css" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Mulish&family=Questrial&family=Raleway&display=swap" rel="stylesheet">
+
+    </head>
+    <body style="background: #ffffff">
+        <style>
+            .filtro{
+                display: none;
+
+            }
+            .precioa:before {
+                content: "S/.";
+            }
+
+            .precioa {
+                text-align: right;
+            }
+            /* nuevo -- */
+            body{
+                font-size: 17px;
+                font-family: 'Mulish', sans-serif;
+                ;
+            }
+            /* nuevo -- */
+
+            .box{
+                width: 350px;
+                background-color: white;
+                border-radius: 30px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border: 2.5px solid rgb(212, 212, 212);
+
+            }
+
+            .box > i{
+                font-size: 20px;
+                color: #535353; /* nuevo */
+            }
+            .box > input{
+                flex:1;
+                border: none;
+                outline: none;
+                font-size: 15px; /* nuevo */
+            }
+
+            /* nuevo -- */
+
+            .cajamostrar{
+                padding-top: 15px;
+            }
+
+            table tr th:first-child {
+                width: 120px;
+            }
+            table tr th:nth-last-child(1){
+                width: 140px;
+            }
+            table tr th:nth-last-child(2){
+                width: 140px;
+            }
+            .table td{
+                vertical-align: middle;
+            }
+            .table-custom{
+                color: white;
+                background-color: #4c7769;
+            }
+
+            .alinear{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 0px;
+            }
+
+            .alinear .titulopagina{
+                font-size: 42px;
+                color: #36a367;
+                font-weight: 800;
+            }
+
+            .custom-navbar{
+                background-color: rgb(66, 136, 77);
+            }
+
+            .navbar-nav .nav-link{
+                color: rgb(255, 255, 255);
+                margin: 0px 5px;
+                font-size: 1.2rem;
+            }
+
+            #btnhabilitar{
+                background-color: #2f6081;
+                ;
+            }
+
+            #btnhabilitar:hover{
+                background-color: #264c66;
+                transition: 0.2s;
+            }
+
+            .navbar-nav .nav-link:hover{
+                color: rgb(121, 238, 150);
+            }
+            .b{
+                display: inline-block;
+                padding: 2px 5px;
+                border-radius: 10px;
+            }
+
+
+            /* nuevo -- */
+
+        </style>
+        <!-- NAV -->
+
+        <!--  -->
+        <nav th:insert="template.html :: nav"> </nav>
+        <div class="container cajamostrar">
+            <div class="alinear">
+                <div class="titulopagina">Finalizar Venta</div>
+                <div class="box">
+                    <i class="fa-solid fa-magnifying-glass" style="padding: 0px 5px;"></i>
+                    <input type="search" placeholder="Buscar..." class="card-filter" id="buscador" name="buscar">
+                </div>
+            </div>
+            <button class="btn btn-success" id="btnGenerarPDF">Vaucher <i class="fa-solid fa-file"></i></button>
+            <section id="voucherSection">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table-custom">
+                            <tr>
+                                <th scope="col" class="text-center">Codigo <i class="fa-solid fa-id-card-clip"></i></th>
+                                <th scope="col">Producto</th>
+                                <th scope="col">Precio Unitario</th>
+                                <th scope="col">Cantidad</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="detalle:${venta.detallesVenta}" class="articulo">
+                                <td class="text-center" th:text="${detalle.codigo}"></td>
+                                <td class="text-center" th:text="${detalle.producto.descripcion}"></td>
+                                <td class="text-center" th:text="'S/'+${detalle.preciounitario}"></td>
+                                <td class="text-center" th:text="${detalle.cantidad}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:each="venta:${venta}">
+                        <h3 th:text="'• '+${venta.codigo}" style="display:none;"></h3>
+                        <label>Cliente: </label>
+                        <h3 th:text="'• '+${venta.cliente.nombre}"></h3>
+                        <label>Usuario: </label>
+                        <h3 th:text="'• '+${venta.usuario.nombre}"></h3>
+                        <label>Fecha: </label>
+                        <h3 th:text="'• '+${#temporals.format(venta.fechaventa, 'dd/MM/yyyy')}"></h3>
+                        <label>Total: </label>
+                        <h1 th:text="'S/'+${venta.total}" class="text-danger"></h1>
+                    </div>
+                    <a th:href="@{/mostrarventa}" class="btn btn-danger">Regresar <i class="fa-solid fa-backward"></i></a></a>
+                </div>
+            </section>
+        </div>
+    </div>
+    <footer class="footer">
+        <div class="container text-center">
+            <span class="text-muted">© 2023 Pizzería. Todos los derechos reservados.</span>
+        </div>
+    </footer>
+</body>
+<script>
+    function cerrarSesion(event) {
+        event.preventDefault(); // Evita el envío del formulario por defecto
+
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: '¿Estás seguro de que deseas cerrar sesión?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí puedes realizar cualquier acción adicional antes de enviar el formulario de cierre de sesión
+                document.forms[0].submit(); // Envía el formulario de cierre de sesión
+            }
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://kit.fontawesome.com/c54effc087.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.68/vfs_fonts.js"></script>
+<script>
+    document.addEventListener("keyup", e => {
+        if (e.target.matches("#buscador")) {
+            document.querySelectorAll(".articulo").forEach(elemento => {
+                elemento.textContent.toLowerCase().includes(e.target.value.toLowerCase()) ? elemento.classList.remove("filtro") : elemento.classList.add("filtro")
+            })
+        }
+    })
+</script>
+<div th:if=${param.correcto}>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Venta Guardado con exito',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+</div>
+<script>
+    document.getElementById('btnGenerarPDF').addEventListener('click', function () {
+        // Obtener los datos del voucher de Thymeleaf
+        var voucherData = {
+            codigo: '',
+            cliente: {
+                nombre: '',
+            },
+            usuario: {
+                nombre: '',
+            },
+            fechaVenta: '',
+            total: '',
+            cuponDescuento: '',
+        };
+
+        // Obtener el código de venta
+        voucherData.codigo = document.querySelector('#voucherSection h3').innerText.replace('• ', '');
+
+        // Obtener los datos del cliente, usuario, fecha y total
+        voucherData.cliente.nombre = document.querySelector('#voucherSection h3:nth-child(3)').innerText.replace('• ', '');
+        voucherData.usuario.nombre = document.querySelector('#voucherSection h3:nth-child(5)').innerText.replace('• ', '');
+        voucherData.fechaVenta = document.querySelector('#voucherSection h3:nth-child(7)').innerText.replace('• ', '');
+        voucherData.total = document.querySelector('#voucherSection h1').innerText.replace('S/', '');
+        var voucherContent = {
+            content: [
+                {text: 'Venta Nº' + voucherData.codigo, style: 'header'},
+                {text: ''},
+                {
+                    table: {
+                        headerRows: 1,
+                        body: [
+                            ['Producto', 'Precio Unitario S/', 'Cantidad'],
+                            // Agregar cada detalle de venta
+                            ...Array.from(document.querySelectorAll('#voucherSection table tbody tr.articulo')).map(function (row) {
+                                return [
+                                    row.querySelector('td:nth-child(2)').innerText,
+                                    row.querySelector('td:nth-child(3)').innerText.replace('S/', ''),
+                                    row.querySelector('td:nth-child(4)').innerText,
+                                ];
+                            }),
+                        ],
+                    },
+                    layout: 'lightHorizontalLines',
+                    alignment: 'center',
+                },
+                {text: ''},
+                {text: 'Cliente: ' + voucherData.cliente.nombre},
+                {text: 'Usuario: ' + voucherData.usuario.nombre},
+                {text: 'Fecha: ' + voucherData.fechaVenta},
+                {text: 'Total: S/' + voucherData.total, style: 'total'},
+                {text:''},
+            ],
+            styles: {
+                header: {
+                    fontSize: 20,
+                    bold: true,
+                    alignment: 'center',
+                    margin: [0, 0, 0, 10],
+                },
+                total: {
+                    fontSize: 18,
+                    bold: true,
+                    color: 'red',
+                    margin: [0, 10, 0, 0],
+                },
+            },
+        };
+
+        // Generar el PDF
+        var pdfDocGenerator = pdfMake.createPdf(voucherContent);
+
+        // Descargar el PDF
+        pdfDocGenerator.download('voucher.pdf');
+    });
+</script>
+<script>
+    var url = window.location.href.split('?')[0];
+    history.replaceState(null, null, url);
+</script>
+</html>

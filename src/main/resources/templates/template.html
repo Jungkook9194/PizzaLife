@@ -1,0 +1,163 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+<style>
+    .nav-item {
+        font-size:18px;
+        text-transform:uppercase;
+        height:82px;
+        line-height:64px;
+    }
+    .flare {
+        background:#ef662b;
+    }
+    .flare a.nav-link {
+        color:#fff !important
+    }
+    .topbarElements > div:nth-of-type(1){
+        font-size:48px;
+        margin:12px 32px;
+        color:#ef662b
+    }
+    @media screen and (min-width:1040px){
+        .flare {
+            margin-right:-15px;
+        }
+    }
+    @media screen and (max-width:1029px){
+        .navbar-nav {
+            margin-bottom:15px;
+            text-align:center
+        }
+        .nav-item {
+            background : rgba(255,255,255,0.1);
+            margin:2px;
+        }
+    }
+
+</style>
+
+<div class="row align-items-center text-center" th:fragment="nav">
+    <div class="col">
+        <div class="topbarElements d-inline-flex align-items-center">
+            <div>&#x27A4;</div>
+            <div class="text-start d-md-block d-none">
+                <h5 class="p-0 m-0 text-uppercase">Sede</h5>
+                <p class="p-0 m-0 text-secondary">Begonias 130, El Agustino, Peru</p>
+            </div>
+        </div>
+    </div>
+    <div class="col border-start border-end">
+        <div class="topbarElements d-inline-flex align-items-center">
+            <div>&#x270E;</div>
+            <div class="text-start d-md-block d-none">
+                <h5 class="p-0 m-0 text-uppercase">Correo Electronico</h5>
+                <p class="p-0 m-0 text-secondary">andyhc105@gmail.com</p>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="topbarElements d-inline-flex align-items-center">
+            <div>
+                &#x260F;
+            </div>
+            <div class="text-start d-md-block d-none">
+                <h5 class="p-0 m-0 text-uppercase">Telefono</h5>
+                <p class="p-0 m-0 text-secondary">+51 991 114 401</p>
+            </div>
+        </div>
+    </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-danger p-0 m-0">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img th:src="@{/images/logopizza.jpg}" alt="DBK Logo" height="72"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class=" collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto ">
+                <li class="nav-item">
+                    <a class="nav-link mx-2" aria-current="page" th:href="@{/principal}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Categoria</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarcategoria}">Consultar</a></li>
+                        <li><a class="dropdown-item" th:if="${esAdministrador}" th:href="@{/mostrarhabilitarcategoria}">Habilitar/Deshabilitar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Productos</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarproducto}">Consultar</a></li>
+                        <li><a class="dropdown-item" th:href="@{/mostrarpedidos}">Pedidos</a></li>
+                        <li><a class="dropdown-item" th:if="${esAdministrador}" th:href="@{/habilitarproducto}">Habilitar/Deshabilitar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Clientes</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarcliente}">Consultar</a></li>
+                        <li><a class="dropdown-item" th:href="@{/mostrarhabilitarcliente}" >Habilitar/Deshabilitar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Usuarios</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarusuario}">Consultar</a></li>
+                        <li><a class="dropdown-item" th:if="${esAdministrador}" th:href="@{/mostrarhabilitarusuario}">Habilitar/Deshabilitar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Roles</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarrol}">Consultar</a></li>
+                        <li><a class="dropdown-item" th:if="${esAdministrador}" th:href="@{/mostrarhabilitarrol}">Habilitar/Deshabilitar</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Venta</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarventa}">Consultar Ventas</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Cupones</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" th:href="@{/mostrarcupon}">Consultar Cupones</a></li>
+                    </ul>
+                </li>
+                <form th:action="@{/logout}" method="post">
+                    <li><button type="submit" class="nav-link boton-salir"
+                                style="background: none;
+                                border: none;"
+                                onclick="cerrarSesion(event)"
+                                ><span>Salir &#x2192;</span></button></li>
+                </form>
+            </ul>
+        </div>
+    </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script>
+                                    function cerrarSesion(event) {
+                                        event.preventDefault(); // Evita el envío del formulario por defecto
+
+                                        Swal.fire({
+                                            title: '¿Cerrar sesión?',
+                                            text: '¿Estás seguro de que deseas cerrar sesión?',
+                                            icon: 'question',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Sí, cerrar sesión',
+                                            cancelButtonText: 'Cancelar'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Aquí puedes realizar cualquier acción adicional antes de enviar el formulario de cierre de sesión
+                                                document.forms[0].submit(); // Envía el formulario de cierre de sesión
+                                            }
+                                        });
+                                    }
+</script>

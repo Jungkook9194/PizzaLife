@@ -1,0 +1,198 @@
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Verificacion de Codigo - Life Pizza</title>
+        <meta charset="UTF-8">
+        <link rel="icon" th:href="@{'/images/icon.png'}" type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://kit.fontawesome.com/c54effc087.css" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Mulish&family=Questrial&family=Raleway&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    </head>
+    <body>
+        <style>
+
+
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                background: #35A75B !important;
+            }
+            .user_card {
+                height: 400px;
+                width: 350px;
+                margin-top: auto;
+                margin-bottom: auto;
+                background: #f39c12;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                padding: 10px;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                -moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 5px;
+
+            }
+            .brand_logo_container {
+                position: absolute;
+                height: 170px;
+                width: 170px;
+                top: -75px;
+                border-radius: 50%;
+                background: #FF0000;
+                padding: 10px;
+                text-align: center;
+            }
+            .brand_logo {
+                height: 150px;
+                width: 150px;
+                border-radius: 50%;
+                border: 2px solid white;
+            }
+            .form_container {
+                margin-top: 100px;
+            }
+            .login_btn {
+                width: 100%;
+                background: #c0392b !important;
+                color: white !important;
+            }
+            .login_btn:focus {
+                box-shadow: none !important;
+                outline: 0px !important;
+            }
+            .login_container {
+                padding: 0 2rem;
+            }
+            .input-group-text {
+                background: #c0392b !important;
+                color: white !important;
+                border: 0 !important;
+                border-radius: 0.25rem 0 0 0.25rem !important;
+            }
+            .input_user,
+            .input_pass:focus {
+                box-shadow: none !important;
+                outline: 0px !important;
+            }
+            .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+                background-color: #c0392b !important;
+            }
+        </style>
+        <div class="container h-100">
+            <div class="d-flex justify-content-center h-100">
+                <div class="user_card">
+                    <div class="d-flex justify-content-center">
+                        <div class="brand_logo_container">
+                            <img src="https://scontent.flim8-1.fna.fbcdn.net/v/t1.6435-9/199919082_173635978103641_5596966968765473024_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=09cbfe&_nc_eui2=AeFoGvlQiled4IGlswbIFacztXnUzG8d9461edTMbx33jkwwXeg9gQb_xQOt78oXlFOJNGgT9j8K_bVpzCSBFx8b&_nc_ohc=mxRZfhS_b2wAX_QD8LS&_nc_ht=scontent.flim8-1.fna&oh=00_AfAuT9lSPr1hQECYY0U_G-GWLZa-mn9m9qUb_Hqmvoe5LA&oe=6492F671" class="brand_logo" alt="Logo">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center form_container">
+                        <form th:action="@{/verify-code}" method="post">
+                            <div class="text-center">
+                                <h3>Verificacion de codigo</h3>
+                            </div>
+                            <div class="input-group mb-3">
+                                <input type="hidden" id="correo" name="correo" th:value="${correo}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="fa-solid fa-key"></i></span>
+                                </div>
+                                <input class="form-control" placeholder='Ingrese codigo de verificacion' type="text" id="codigo" name="codigo" required>
+                            </div>
+                            <div class="d-flex justify-content-center mt-3 login_container">
+                                <button type="submit" name="button" class="btn login_btn">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-center links" >
+                            <form id="resendForm" th:action="@{/resend-code}" method="post">
+                                <input type="hidden" name="correo" th:value="${correo}" />
+                                <button id="resendButton" type="submit" class="btn btn-info">Reenviar código de verificación</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <div class="d-flex justify-content-center links">
+                            <a class='btn btn-danger' th:href="@{/login}" >Regresar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="https://kit.fontawesome.com/c54effc087.js" crossorigin="anonymous"></script>
+<div th:if=${param.nocode}>
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error...!!',
+            text: 'Codigo no valido'
+        })
+    </script>
+</div>
+<script>
+    $(document).ready(function () {
+        $('form').submit(function () {
+            var correoValue = $('#correo').val();
+            localStorage.setItem('correoValue', correoValue);
+        });
+        var storedCorreoValue = localStorage.getItem('correoValue');
+        if (storedCorreoValue) {
+            $('#correo').val(storedCorreoValue);
+            localStorage.removeItem('correoValue');
+        }
+    });
+</script>
+<script>
+    var resendButton = document.getElementById("resendButton");
+    resendButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        resendButton.disabled = true;
+        var count = 30;
+        resendButton.innerText = "Espera " + count + " segundos para un nuevo codigo";
+        var countdownInterval = setInterval(function () {
+            count--;
+            resendButton.innerText = "Espera " + count + " segundos para un nuevo codigo";
+            if (count <= 0) {
+                clearInterval(countdownInterval);
+                resendButton.disabled = false;
+                resendButton.innerText = "Reenviar código de verificación";
+            }
+        }, 1000);
+        setTimeout(function () {
+            resendForm.submit();
+        }, 30000);
+    });
+</script>
+<script>
+    var url = window.location.href.split('?')[0];
+    history.replaceState(null, null, url);
+</script>
+
+
+
+
+
+
+
+
+

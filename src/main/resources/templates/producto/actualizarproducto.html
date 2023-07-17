@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Actualizar Producto - Pizza Life</title>
+        <link rel="icon" th:href="@{'/images/icon.png'}" type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://kit.fontawesome.com/c54effc087.css" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Mulish&family=Questrial&family=Raleway&display=swap" rel="stylesheet"></head>
+    <body style="background: #ffffff">
+
+        <style>
+            /* nuevo -- */
+            body{
+                font-size: 17px;
+                font-family: 'Mulish', sans-serif;
+                ;
+            }
+            /* nuevo -- */
+
+            .cajamostrar{
+                padding-top: 30px;
+            }
+
+            .titulopagina{
+                font-size: 42px;
+                color: #36a367;
+                font-weight: 800;
+            }
+
+            .custom-navbar{
+                background-color: rgb(66, 136, 77);
+            }
+
+            .navbar-nav .nav-link{
+                color: rgb(255, 255, 255);
+                margin: 0px 5px;
+                font-size: 1.2rem;
+            }
+
+            #btnhabilitar{
+                background-color: #2f6081;
+                ;
+            }
+
+            #btnhabilitar:hover{
+                background-color: #264c66;
+                transition: 0.2s;
+            }
+
+            .navbar-nav .nav-link:hover{
+                color: rgb(121, 238, 150);
+            }
+        </style>
+
+        <!-- NAV -->
+        <nav th:insert="template.html :: nav"> </nav>
+        <!--  -->
+
+        <div class="container cajamostrar">
+            <div class="titulopagina">Editar Producto</div>
+            <section style="padding-top: 15px;">
+                <form th:action="@{/actualizarproducto/{id}(id=${producto.codigo})}" method="post" th:object="${producto}" >
+                    <div class="col-6">
+                        <label for="txtCod" class="form-label">Codigo</label>
+                        <input type="text" class="form-control" id="txtCod" th:field="*{codigo}" th:value="${producto.codigo}" required readonly>
+                    </div>
+                    <div class="col-6" style="margin-top: 15px">
+                        <label for="txtNom" class="form-label">Descripcion:</label>
+                        <input type="text" class="form-control" id="txtNom" th:field="*{descripcion}" placeholder="Ingrese Descripcion" th:value="${producto.descripcion}" maxlength="200" onkeypress="return (event.charCode >= 65 && event.charCode <= 90 ||
+                                        event.charCode == 244 || event.charCode == 209 || event.charCode >= 225 && event.charCode <= 250 || event.charCode >= 97 && event.charCode <= 122 || event.charCode == 32 || event.charCode >= 48 && event.charCode <= 57)" required>
+                    </div>
+                    <div class="col-6" style="margin-top: 15px">
+                        <label for="txtPreC" class="form-label">Precio:</label>
+                        <input type="number" class="form-control" required id="txtPreC" th:field="*{precio}" placeholder="Ingrese Precio" step=".01" th:value="${producto.precio}" maxlength="9">
+                    </div>
+                    <div class="col-6" style="margin-top: 15px">
+                        <label for="txtPreC" class="form-label">Imagen: </label>
+                        <input type="text" class="form-control" id="txtPreC" th:field="*{imagen}" step=".01" th:value="${producto.imagen}" readonly=''>
+                    </div>
+                    <div class="col-6" style="margin-top: 15px">
+                        <label for="cboCategoria" class="form-label">Categoria:</label>
+                        <select id="cboCategoria" class="form-select" th:field="*{categoria}" requiered>
+                            <option value="">Seleccione una categoria</option>
+                            <option th:each="categoria:${categoria}" th:value="${categoria.codigo}" th:text="${categoria.nombre}"></option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-check mb-3">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="remember" th:field="*{estado}" checked> Habilitado
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-success">Editar datos <i class="fa-solid fa-pen-nib"></i></button>
+                    <a class="btn btn-danger" th:href="@{/mostrarproducto}">Cancelar <i class="fa-solid fa-backward"></i></a>
+                </form>
+            </section>
+        </div>
+    </div>
+    <br>
+    <footer class="footer">
+                <div class="container text-center">
+                    <span class="text-muted">© 2023 Pizzería. Todos los derechos reservados.</span>
+                </div>
+            </footer>
+</div>
+<script>
+    function cerrarSesion(event) {
+        event.preventDefault(); // Evita el envío del formulario por defecto
+
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: '¿Estás seguro de que deseas cerrar sesión?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí puedes realizar cualquier acción adicional antes de enviar el formulario de cierre de sesión
+                document.forms[0].submit(); // Envía el formulario de cierre de sesión
+            }
+        });
+    }
+</script>
+<script>
+    var url = window.location.href.split('?')[0];
+    history.replaceState(null, null, url);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c54effc087.js" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+</body>
+</html>
+

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Habilitar Cupon - Pizza Life</title>
+        <link rel="icon" th:href="@{'/images/icon.png'}" type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://kit.fontawesome.com/c54effc087.css" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.2/dist/sweetalert2.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter&family=Mulish&family=Questrial&family=Raleway&display=swap" rel="stylesheet">
+    </head>
+    <body style="background: #ffffff">
+
+        <style>
+            .filtro{
+                display: none;
+
+            }
+            /* nuevo -- */
+            body{
+                font-size: 17px;
+                font-family: 'Mulish', sans-serif;
+                ;
+            }
+            /* nuevo -- */
+
+            .box{
+                width: 350px;
+                background-color: white;
+                border-radius: 30px;
+                display: flex;
+                align-items: center;
+                padding: 10px;
+                border: 2.5px solid rgb(212, 212, 212);
+
+            }
+
+            .box > i{
+                font-size: 20px;
+                color: #535353; /* nuevo */
+            }
+            .box > input{
+                flex:1;
+                border: none;
+                outline: none;
+                font-size: 15px; /* nuevo */
+            }
+
+            /* nuevo -- */
+
+            .cajamostrar{
+                padding-top: 15px;
+            }
+
+            table tr th:first-child {
+                width: 120px;
+            }
+            table tr th:nth-last-child(1){
+                width: 150px;
+            }
+            table tr th:nth-last-child(2){
+                width: 150px;
+            }
+            .table td{
+                vertical-align: middle;
+            }
+
+            .table-custom{
+                color: white;
+                background-color: #4a6e77;
+            }
+
+            .alinear{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 0px;
+            }
+
+            .alinear .titulopagina{
+                font-size: 42px;
+                color: #36a367;
+                font-weight: 800;
+            }
+
+            .custom-navbar{
+                background-color: rgb(66, 136, 77);
+            }
+            .b{
+                display: inline-block;
+                padding: 2px 5px;
+                border-radius: 10px;
+            }
+
+            .navbar-nav .nav-link{
+                color: rgb(255, 255, 255);
+                margin: 0px 5px;
+                font-size: 1.2rem;
+            }
+
+            #btnhabilitar{
+                background-color: #2f6081;
+            }
+
+            #btnhabilitar:hover{
+                background-color: #264c66;
+                transition: 0.2s;
+            }
+
+            .navbar-nav .nav-link:hover{
+                color: rgb(121, 238, 150);
+            }
+
+            /* nuevo -- */xx
+
+        </style>
+
+
+        <!-- NAV -->
+        <nav th:insert="template.html :: nav"> </nav>
+        <!--  -->
+
+        <div class="container cajamostrar">
+
+
+            <div class="alinear">
+                <div class="titulopagina">Habilitar Cupon</div>
+                <div class="box">
+                    <i class="fa-solid fa-magnifying-glass" style="padding: 0px 5px;"></i>
+                    <input type="search" placeholder="Buscar..." class="card-filter" id="buscador" name="buscar">
+                </div>
+            </div>
+
+            <section>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead class="table-custom">
+                            <tr>
+                                <th scope="col" class="text-center">Codigo <i class="fa-solid fa-id-card-clip"></i></th>
+                                <th scope="col">Cupon</th>
+                                <th scope="col">Descuento</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Habilitar</th>
+                                <th scope="col">Deshabilitar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="cupon:${cupon}" class="articulo">
+                                <td class="text-center" th:text="${cupon.codigo}">1</td>
+                                <td th:text="${cupon.cupon}"></td>
+                                <td th:text="${cupon.descuento}"></td>
+                                <td><span class="text-center b" th:style="${cupon.estado} ? 'background-color: #2AFF00' : 'background-color: #FF4848'" th:text="${cupon.estado}? 'Habilitado':'Deshabilitado'"></span></td>
+                                <td><a th:href="@{/habilitarcupon/{id}(id=${cupon.codigo})}" class="btn btn-success">Habilitar <i class="fa-solid fa-check-to-slot"></i></a></td>
+                                <td><a th:href="@{/deshabilitarcupon/{id}(id=${cupon.codigo})}" class="btn btn-danger">Deshabilitar <i class="fa-solid fa-x"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a th:href="@{/mostrarcupon}" class="btn btn-danger">Cancelar <i class="fa-solid fa-backward"></i></a>
+            </section>
+        </div>
+    </div>
+</div>
+<footer class="footer">
+    <div class="container text-center">
+        <span class="text-muted">© 2023 Pizzería. Todos los derechos reservados.</span>
+    </div>
+</footer>
+<script>
+    function cerrarSesion(event) {
+        event.preventDefault(); // Evita el envío del formulario por defecto
+
+        Swal.fire({
+            title: '¿Cerrar sesión?',
+            text: '¿Estás seguro de que deseas cerrar sesión?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí puedes realizar cualquier acción adicional antes de enviar el formulario de cierre de sesión
+                document.forms[0].submit(); // Envía el formulario de cierre de sesión
+            }
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c54effc087.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("keyup", e => {
+        if (e.target.matches("#buscador")) {
+            document.querySelectorAll(".articulo").forEach(elemento => {
+                elemento.textContent.toLowerCase().includes(e.target.value.toLowerCase()) ? elemento.classList.remove("filtro") : elemento.classList.add("filtro")
+            })
+        }
+    })
+</script>
+<script>
+    var url = window.location.href.split('?')[0];
+    history.replaceState(null, null, url);
+</script>
+</body>
+</html>
